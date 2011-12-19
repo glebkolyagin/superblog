@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="en-US">
+    <head>
+        <title>Small super blog - {% block title %}{% endblock %}</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <link rel="stylesheet" href="/media/css/styles.css" media="screen, tv, projection" type="text/css"/>
+        {% block extrahead %}{% endblock %}
+    </head>
+    <body>
+
+        
+        
+        <div id="auth_form">
+            <!-- log in panel -->
+            {% if user.is_authenticated %}
+                Hi  {{ user.username }} {% if not user.is_active%}(inactive) {% endif %}
+                (<a href="/logout/?next={{ request.get_full_path }}">log out</a>)<br/>
+                {% if user.is_staff and user.is_active %}
+                    How you can <a href="/add/">add</a> article
+                {% endif %}
+               
+            {% else %}
+                <form action="/login/" method="post" accept-charset="utf-8">
+                    {% csrf_token %}
+                    <label for="username">Username</label><input type="text" name="username" id="username" />
+                    <label for="password">Password</label><input type="password" name="password" id="password" />
+                    <input type="submit" value="Login">
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                </form>
+                <div class="register_link">
+                    <a href="/reg/" title="Create a user account">Register</a>
+                </div>
+            {% endif %}
+            <!-- end of log in panel -->
+        </div>
+        
+        <div id="top">
+            <a href="/" title="Main page">Main page</a>    
+        </div>
+        
+        
+        {% block content %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Main Page{% endblock %}
+{% block content %}
+{% autoescape off %}
+
+<div id="articles">
+                    <!-- articles -->
+                        <h1 class="h_title">Articles</h1>
+                        
+                        {% ifequal articles.object_list.count 0 %}
+                        <br/>There's no articles yet<br/>
+                        {% endifequal %}
+                        
+                        {% for a in articles.object_list %}
+                        <div class="item">
+
+                            <div class="date">{{ a.date|date:"d.m.Y" }}&nbsp;&nbsp;&nbsp;{{ a.user }}</div>
+                            <span class="title"><a href="/{{ a.slug }}/" class="title_link" title="{{ a.title }}">{{ a.title }}</a>
+                            </span> 
+                            {% ifequal a.user user %}
+                            {% if user.is_active %}
+                            &nbsp;&nbsp;(<a href="/edit/{{ a.id }}/?next={{ request.get_full_path }}" title="Edit article" class="more_link">edit</a>)
+                            &nbsp;&nbsp;(<a href="/delete/{{ a.id }}/?next={{ request.get_full_path }}" title="Delete article" class="more_link">delete</a>)
+                            {% endif %}
+                            
+                            {% endifequal %}
+                            
+                            
+                            
+                            <div class="content">
+                               {{ a.text|truncatewords_html:100 }}
+                            
+                            </div>
+                            <a href="/{{ a.slug }}/" class="more_link" title="Read the article">Read</a>
+
+                        </div>
+                        {% endfor %}
+                        
+                        
+                        
+                        
+                        
+                        {% if articles.paginator.num_pages > 1 %}
+                        <div class="pages_list">
+                        <!-- pages_list -->
+                   
+
+                        {% if articles.has_previous %}
+                            
+                        <a href="/?page=1" class="page first" title="First page">First</a>
+                        <a href="/?page={{ articles.previous_page_number }}" class="page prev" title="Previous">Previous</a>
+                        {% endif %}
+                        
+                        {% for cur_page in page_list %}
+                                {% ifequal articles.number cur_page.name %}
+                                    <span class="page current">
+                                        {{ cur_page.name }}
+                                    </span>
+                                {% else  %}
+                                    <a href="/?page={{ cur_page.href }}" class="page" title="Page {{ cur_page.name }}">{{ cur_page.name }}</a>
+                                    
+                                {% endifequal %}
+                        {% endfor %}
+                        
+                
+                        
+                         {% if articles.has_next %}
+       
+                        <a href="/?page={{ articles.next_page_number }}" class="page next" title="Next">Next</a>
+                        <a href="/?page={{ articles.paginator.num_pages }}" class="page last" title="Last">Last</a>
+                        {% endif %}
+                    <!-- /pages_list -->
+                    </div>
+                                   
+                    {% endif %}
+									 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+     
+{%   endautoescape    %}
+
+{% endblock %}

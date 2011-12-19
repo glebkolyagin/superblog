@@ -1,0 +1,20 @@
+Small Blog
+
+Users can register and login.
+To write, edit and delete articles user should have ACTIVE and STAFF statuses
+Only superuser can assign STAFF status to another user using django admin interface
+
+Every user can write comments to article. Anonymous user can do it too.
+It is impossible to write more than one the same comment to the same article from one IP address.
+
+Either there is a paginator on the main page of project
+
+
+In file dj_survey.conf replace {PATH_TO_SUPERBLOG} on your path to directory containing superblog folder
+Include file dj_survey.conf to apache configuration file
+
+In file proj/settings.py set up parameters of postgresql database server
+Restore database from file superblog_db
+
+
+

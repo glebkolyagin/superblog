@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<script src="/media/admin_media/js/jquery.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block content %}
+
+
+
+
+ <div id="one_article">
+        {% autoescape off %}
+                        <h1 class="title">{{ article.title }}</h1>
+                        <div class="item">
+                      
+                            <div class="date">{{ article.date|date:"d.m.Y" }}&nbsp;&nbsp;&nbsp;&nbsp;{{ article.user }}</div>
+                            
+                            
+                            <div class="content">
+                                {{ article.text }}
+                            </div>
+                            <a href="/" class="back_link" title="Back to article list">List of articles&hellip;</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="javascript:history.go(-1)" class="back_link" title="Back to previous page">Back&hellip;</a>
+                      
+                        </div>
+                  
+</div>
+
+    <div id="comments">
+    
+        <h2 class="head">Comments</h2><br/>
+        {% for c in comments %}
+            <div class="item">
+                <div class="user">
+                {% if c.user %}
+                    {{ c.user }}
+                {% else %}
+                    Anonymous
+                {% endif %}            
+                </div>
+                <div class="date">
+                {{ c.date|date:"d.m.Y" }}
+                </div>
+                <div class="comment">{{ c.comment }}</div>
+            </div>
+        {% endfor %}
+    
+        <h2 class="write">Write a comment:</h2>
+
+        <form action="/{{ article.slug }}/" method="post" id="comment_form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" id="submit"/>
+        </form>
+    
+    </div>
+                   
+                    
+		{% endautoescape %}
+{% if form.errors %}
+<script type="text/javascript">
+$('#id_comment').focus();
+</script>
+{% endif %}
+	
+{% endblock %}
+
+

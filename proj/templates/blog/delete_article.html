@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Article
+{% endblock %}
+
+{% block content %}
+<br/><br/>
+    <div id="add_article">
+        <h2 class="title">Delete article</h2><br/>
+        {% if user.is_authenticated %}
+            {% if user.is_active %}
+                {% ifequal article.user user %}
+                    Do you really want to delete article {{ article.title }}{% if comments %} and all comments bounded to it{% endif %}?
+                    <form action="/delete/{{ article.id }}/" method="post" id="article_form">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ next }}" name="next" />
+                        <input type="submit" value="Yes" name="yes" id="submit_del" />
+                        <input type="submit" value="No" name="no" id="submit_del2" />
+                    </form>
+                {% else %}
+                    Only user wroted the article can delete it
+                {% endifequal %}
+            {% else %}
+                You are not an active user
+            {% endif %}
+        
+        {% endif %}
+        </div>
+{% endblock %}

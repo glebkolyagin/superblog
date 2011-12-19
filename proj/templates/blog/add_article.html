@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Add article{% endblock %}
+
+{% block content %}
+<br/><br/>
+ <div id="add_article">
+    <h2 class="title">Add article</h2><br/>
+    {% if user.is_authenticated %}
+        {% if user.is_active %}
+            {% if user.is_staff %}
+                <form action="/add/" method="post" id="article_form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit" id="submit"/>
+                </form>
+        
+            {% else %}
+                You should have Staff status to write articles
+            {% endif%}  
+        {% else %}
+           You are not an active user
+         {% endif %}
+    {% else %}
+        You should <a href="/login/" title="Login" >log in</a> to write articles
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login Form
+{% endblock %}
+
+{% block content %}
+<div id="login">
+<ul class="messages">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% if user.is_authenticated %}
+Hi  {{ user.username }}.
+You are authenticated. Now you can <a href="/logout/?next={{ request.get_full_path }}">logout</a>
+{% if user.is_staff and user.is_active %}
+or <a href="/add/">add</a> article
+{% else %}
+. If you want to write articles you have to be an active user having Staff status.
+{% endif %}
+{% else %}
+<h2 class="title">Login</h2>
+{% if messages %}
+
+{% endif %}
+
+<form action="/login/" method="post" accept-charset="utf-8" id="login_form">
+{% if error %}
+<ul class="errorlist"><li>Error. Username and Password do not match</li></ul>
+{% endif %}
+{% if no_active %}
+<ul class="errorlist"><li>Error. Your account is not active</li></ul>
+{% endif %}
+
+
+<label for="id_username">Username</label><input type="text" name="username" value="" id="id_username" /><br/>
+<label for="id_password">Password</label><input type="password" name="password" value="" id="id_password" /><br/>
+{% csrf_token %}
+<p><input type="submit" value="Login" id="submit"></p>
+<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+</form>
+{% endif %}
+</div>
+
+{% endblock %}
