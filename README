@@ -1,7 +1,7 @@
 Small Blog
 
 Users can register and login.
-To write, edit and delete articles user should have ACTIVE and STAFF statuses
+User should have ACTIVE and STAFF statuses to write, edit and delete articles 
 Only superuser can assign STAFF status to another user using django admin interface
 
 Every user can write comments to article. Anonymous user can do it too.
